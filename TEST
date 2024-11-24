@@ -1,4 +1,4 @@
-local OrionLibrary = {}
+local KavoUI = {}
 
 -- Utility function to create the loading screen
 local function createLoadingScreen()
@@ -28,21 +28,21 @@ local function createLoadingScreen()
 end
 
 -- Function to create the main UI
-function OrionLibrary:CreateWindow(windowTitle)
+function KavoUI:CreateWindow(windowTitle)
     -- Create and show the loading screen
     local loadingScreen = createLoadingScreen()
 
     -- Main GUI Components
     local screenGui = Instance.new("ScreenGui")
-    screenGui.Name = "OrionUI"
+    screenGui.Name = "KavoUI"
     screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
-    -- Create the main frame (rectangular, more fluid)
+    -- Create the main frame (rectangular)
     local mainFrame = Instance.new("Frame")
     mainFrame.Name = "MainFrame"
-    mainFrame.Size = UDim2.new(0, 600, 0, 400)  -- Adjusted to rectangular size
+    mainFrame.Size = UDim2.new(0, 600, 0, 400)
     mainFrame.Position = UDim2.new(0.5, -300, 0.5, -200)
-    mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
     mainFrame.BorderSizePixel = 0
     mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
     mainFrame.Parent = screenGui
@@ -50,21 +50,21 @@ function OrionLibrary:CreateWindow(windowTitle)
 
     -- Rounded corners and drop shadow for modern feel
     local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 12)  -- Rounded corners
+    corner.CornerRadius = UDim.new(0, 12)
     corner.Parent = mainFrame
 
     local shadow = Instance.new("ImageLabel")
     shadow.Size = UDim2.new(1, 0, 1, 20)
     shadow.Position = UDim2.new(0, 0, 1, 0)
     shadow.BackgroundTransparency = 1
-    shadow.Image = "rbxassetid://13082504272"  -- Shadow effect image
+    shadow.Image = "rbxassetid://13082504272" -- Shadow effect image
     shadow.Parent = mainFrame
 
     -- Title Bar
     local titleBar = Instance.new("Frame")
     titleBar.Name = "TitleBar"
     titleBar.Size = UDim2.new(1, 0, 0, 40)
-    titleBar.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    titleBar.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
     titleBar.BorderSizePixel = 0
     titleBar.Parent = mainFrame
 
@@ -73,7 +73,7 @@ function OrionLibrary:CreateWindow(windowTitle)
     title.Size = UDim2.new(1, -40, 1, 0)
     title.Position = UDim2.new(0, 10, 0, 0)
     title.BackgroundTransparency = 1
-    title.Text = windowTitle or "Orion UI Library"
+    title.Text = windowTitle or "Kavo UI"
     title.TextColor3 = Color3.fromRGB(255, 255, 255)
     title.Font = Enum.Font.GothamBold
     title.TextSize = 20
@@ -109,7 +109,7 @@ function OrionLibrary:CreateWindow(windowTitle)
     tabsContainer.Name = "TabsContainer"
     tabsContainer.Size = UDim2.new(0, 150, 1, -40)
     tabsContainer.Position = UDim2.new(0, 0, 0, 40)
-    tabsContainer.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    tabsContainer.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
     tabsContainer.BorderSizePixel = 0
     tabsContainer.Parent = mainFrame
 
@@ -135,7 +135,7 @@ function OrionLibrary:CreateWindow(windowTitle)
     profileFrame.Name = "ProfileFrame"
     profileFrame.Size = UDim2.new(1, 0, 0, 60)
     profileFrame.Position = UDim2.new(0, 0, 1, -60)
-    profileFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    profileFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     profileFrame.BorderSizePixel = 0
     profileFrame.Parent = tabsContainer
 
@@ -172,11 +172,11 @@ function OrionLibrary:CreateWindow(windowTitle)
         end
     end
 
-    function OrionLibrary:AddTab(tabName)
+    function KavoUI:AddTab(tabName)
         -- Create the tab button
         local tabButton = Instance.new("TextButton")
         tabButton.Size = UDim2.new(1, 0, 0, 40)
-        tabButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+        tabButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
         tabButton.Text = tabName
         tabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
         tabButton.Font = Enum.Font.Gotham
@@ -198,10 +198,10 @@ function OrionLibrary:CreateWindow(windowTitle)
         return contentFrame
     end
 
-    -- Remove loading screen
+    -- Remove the loading screen after the window is created
     loadingScreen:Destroy()
 
-    return OrionLibrary
+    return KavoUI
 end
 
-return OrionLibrary
+return KavoUI
