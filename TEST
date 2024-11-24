@@ -37,26 +37,27 @@ function OrionLibrary:CreateWindow(windowTitle)
     screenGui.Name = "OrionUI"
     screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
+    -- Create the main frame (rectangular, more fluid)
     local mainFrame = Instance.new("Frame")
     mainFrame.Name = "MainFrame"
-    mainFrame.Size = UDim2.new(0, 550, 0, 400)
-    mainFrame.Position = UDim2.new(0.5, -275, 0.5, -200)
-    mainFrame.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+    mainFrame.Size = UDim2.new(0, 600, 0, 400)  -- Adjusted to rectangular size
+    mainFrame.Position = UDim2.new(0.5, -300, 0.5, -200)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     mainFrame.BorderSizePixel = 0
     mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
     mainFrame.Parent = screenGui
     mainFrame.Active, mainFrame.Draggable = true, true
 
-    -- Add rounded corners and shadow
+    -- Rounded corners and drop shadow for modern feel
     local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 10)
+    corner.CornerRadius = UDim.new(0, 12)  -- Rounded corners
     corner.Parent = mainFrame
 
     local shadow = Instance.new("ImageLabel")
     shadow.Size = UDim2.new(1, 0, 1, 20)
     shadow.Position = UDim2.new(0, 0, 1, 0)
     shadow.BackgroundTransparency = 1
-    shadow.Image = "rbxassetid://13082504272"  -- Roblox shadow image
+    shadow.Image = "rbxassetid://13082504272"  -- Shadow effect image
     shadow.Parent = mainFrame
 
     -- Title Bar
@@ -79,7 +80,7 @@ function OrionLibrary:CreateWindow(windowTitle)
     title.TextXAlignment = Enum.TextXAlignment.Left
     title.Parent = titleBar
 
-    -- Close Button (styled X)
+    -- Close Button with Hover Effects
     local closeButton = Instance.new("TextButton")
     closeButton.Name = "CloseButton"
     closeButton.Size = UDim2.new(0, 30, 0, 30)
@@ -103,7 +104,7 @@ function OrionLibrary:CreateWindow(windowTitle)
         closeButton.TextColor3 = Color3.fromRGB(255, 0, 0)
     end)
 
-    -- Tabs Section
+    -- Tabs Section (Left Sidebar)
     local tabsContainer = Instance.new("Frame")
     tabsContainer.Name = "TabsContainer"
     tabsContainer.Size = UDim2.new(0, 150, 1, -40)
@@ -116,7 +117,7 @@ function OrionLibrary:CreateWindow(windowTitle)
     tabsCorner.CornerRadius = UDim.new(0, 10)
     tabsCorner.Parent = tabsContainer
 
-    -- Content Area
+    -- Content Area (Right section for tabs' content)
     local contentArea = Instance.new("Frame")
     contentArea.Name = "ContentArea"
     contentArea.Size = UDim2.new(1, -150, 1, -40)
@@ -126,7 +127,7 @@ function OrionLibrary:CreateWindow(windowTitle)
     contentArea.Parent = mainFrame
 
     local contentCorner = Instance.new("UICorner")
-    contentCorner.CornerRadius = UDim.new(0, 10)
+    contentCorner.CornerRadius = UDim.new(0, 12)
     contentCorner.Parent = contentArea
 
     -- Profile Section (Bottom left corner)
@@ -182,17 +183,16 @@ function OrionLibrary:CreateWindow(windowTitle)
         tabButton.TextSize = 18
         tabButton.Parent = tabsContainer
 
-        -- Create content for the tab
-        local contentFrame = Instance.new("Frame")
-        contentFrame.Size = UDim2.new(1, 0, 1, 0)
-        contentFrame.Position = UDim2.new(0, 150, 0, 40)
-        contentFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-        contentFrame.Visible = false
-        contentFrame.Parent = contentArea
-
         tabButton.MouseButton1Click:Connect(function()
             showTab(tabName)
         end)
+
+        -- Create content for the tab
+        local contentFrame = Instance.new("Frame")
+        contentFrame.Size = UDim2.new(1, 0, 1, 0)
+        contentFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+        contentFrame.Visible = false
+        contentFrame.Parent = contentArea
 
         tabButtons[tabName] = { Button = tabButton, Content = contentFrame }
         return contentFrame
