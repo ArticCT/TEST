@@ -1,4 +1,4 @@
-local OrionUI = {}
+local OrionLibrary = {}
 
 -- Function to create the loading screen
 local function createLoadingScreen()
@@ -27,32 +27,35 @@ local function createLoadingScreen()
     return loadingScreen
 end
 
--- Create the Orion UI Window
-function OrionUI:CreateWindow(windowTitle)
-    -- Create the loading screen
+-- Create the Orion UI window
+function OrionLibrary:CreateWindow(windowTitle)
+    -- Show the loading screen initially
     local loadingScreen = createLoadingScreen()
 
-    -- Main Window Frame
+    -- Main GUI Components
     local screenGui = Instance.new("ScreenGui")
     screenGui.Name = "OrionUI"
     screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
-    -- Create the main frame for the UI
     local mainFrame = Instance.new("Frame")
     mainFrame.Name = "MainFrame"
-    mainFrame.Size = UDim2.new(0, 600, 0, 400)
-    mainFrame.Position = UDim2.new(0.5, -300, 0.5, -200)
-    mainFrame.BackgroundColor3 = Color3.fromRGB(27, 27, 27) -- Dark background for Orion style
+    mainFrame.Size = UDim2.new(0, 500, 0, 350)
+    mainFrame.Position = UDim2.new(0.5, -250, 0.5, -175)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
     mainFrame.BorderSizePixel = 0
     mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
     mainFrame.Parent = screenGui
     mainFrame.Active, mainFrame.Draggable = true, true
 
-    -- Title Bar (Orion Style)
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 10)
+    corner.Parent = mainFrame
+
+    -- Title Bar
     local titleBar = Instance.new("Frame")
     titleBar.Name = "TitleBar"
-    titleBar.Size = UDim2.new(1, 0, 0, 35)
-    titleBar.BackgroundColor3 = Color3.fromRGB(40, 40, 40) -- Dark gray for title bar
+    titleBar.Size = UDim2.new(1, 0, 0, 40)
+    titleBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     titleBar.BorderSizePixel = 0
     titleBar.Parent = mainFrame
 
@@ -61,21 +64,21 @@ function OrionUI:CreateWindow(windowTitle)
     title.Size = UDim2.new(1, -40, 1, 0)
     title.Position = UDim2.new(0, 10, 0, 0)
     title.BackgroundTransparency = 1
-    title.Text = windowTitle or "Orion UI"
+    title.Text = windowTitle or "Orion UI Library"
     title.TextColor3 = Color3.fromRGB(255, 255, 255)
     title.Font = Enum.Font.GothamBold
-    title.TextSize = 18
+    title.TextSize = 20
     title.TextXAlignment = Enum.TextXAlignment.Left
     title.Parent = titleBar
 
-    -- Close Button (Orion Style X)
+    -- Close Button
     local closeButton = Instance.new("TextButton")
     closeButton.Name = "CloseButton"
     closeButton.Size = UDim2.new(0, 30, 0, 30)
     closeButton.Position = UDim2.new(1, -35, 0.5, -15)
     closeButton.BackgroundTransparency = 1
     closeButton.Text = "X"
-    closeButton.TextColor3 = Color3.fromRGB(255, 0, 0)
+    closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     closeButton.Font = Enum.Font.GothamBold
     closeButton.TextScaled = true
     closeButton.Parent = titleBar
@@ -84,29 +87,37 @@ function OrionUI:CreateWindow(windowTitle)
         screenGui:Destroy()
     end)
 
-    closeButton.MouseEnter:Connect(function()
-        closeButton.TextColor3 = Color3.fromRGB(255, 150, 150)
-    end)
-
-    closeButton.MouseLeave:Connect(function()
-        closeButton.TextColor3 = Color3.fromRGB(255, 0, 0)
-    end)
-
-    -- Tabs Section (Orion Style)
+    -- Tabs and Content Areas
     local tabsContainer = Instance.new("Frame")
     tabsContainer.Name = "TabsContainer"
-    tabsContainer.Size = UDim2.new(0, 150, 1, -35)
-    tabsContainer.Position = UDim2.new(0, 0, 0, 35)
-    tabsContainer.BackgroundColor3 = Color3.fromRGB(40, 40, 40) -- Dark gray for tabs container
+    tabsContainer.Size = UDim2.new(0, 150, 1, -40)
+    tabsContainer.Position = UDim2.new(0, 0, 0, 40)
+    tabsContainer.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     tabsContainer.BorderSizePixel = 0
     tabsContainer.Parent = mainFrame
+
+    local tabsCorner = Instance.new("UICorner")
+    tabsCorner.CornerRadius = UDim.new(0, 10)
+    tabsCorner.Parent = tabsContainer
+
+    local contentArea = Instance.new("Frame")
+    contentArea.Name = "ContentArea"
+    contentArea.Size = UDim2.new(1, -150, 1, -40)
+    contentArea.Position = UDim2.new(0, 150, 0, 40)
+    contentArea.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    contentArea.BorderSizePixel = 0
+    contentArea.Parent = mainFrame
+
+    local contentCorner = Instance.new("UICorner")
+    contentCorner.CornerRadius = UDim.new(0, 10)
+    contentCorner.Parent = contentArea
 
     -- Profile Section (Bottom-left corner)
     local profileFrame = Instance.new("Frame")
     profileFrame.Name = "ProfileFrame"
     profileFrame.Size = UDim2.new(1, 0, 0, 60)
     profileFrame.Position = UDim2.new(0, 0, 1, -60)
-    profileFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50) -- Dark gray for profile area
+    profileFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     profileFrame.BorderSizePixel = 0
     profileFrame.Parent = tabsContainer
 
@@ -135,19 +146,6 @@ function OrionUI:CreateWindow(windowTitle)
     profileUsername.TextXAlignment = Enum.TextXAlignment.Left
     profileUsername.Parent = profileFrame
 
-    -- Content Area (Right section for tabs' content)
-    local contentArea = Instance.new("Frame")
-    contentArea.Name = "ContentArea"
-    contentArea.Size = UDim2.new(1, -150, 1, -35)
-    contentArea.Position = UDim2.new(0, 150, 0, 35)
-    contentArea.BackgroundColor3 = Color3.fromRGB(35, 35, 35) -- Dark background for content area
-    contentArea.BorderSizePixel = 0
-    contentArea.Parent = mainFrame
-
-    local contentCorner = Instance.new("UICorner")
-    contentCorner.CornerRadius = UDim.new(0, 12)
-    contentCorner.Parent = contentArea
-
     -- Tab Management
     local tabButtons = {}
     local function showTab(tabName)
@@ -156,36 +154,65 @@ function OrionUI:CreateWindow(windowTitle)
         end
     end
 
-    function OrionUI:AddTab(tabName)
-        -- Create the tab button
-        local tabButton = Instance.new("TextButton")
-        tabButton.Size = UDim2.new(1, 0, 0, 40)
-        tabButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55) -- Darker gray for the active tab
-        tabButton.Text = tabName
-        tabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-        tabButton.Font = Enum.Font.Gotham
-        tabButton.TextSize = 18
-        tabButton.Parent = tabsContainer
+    function OrionLibrary:AddTab(tabName)
+        local tab = Instance.new("TextButton")
+        tab.Name = tabName
+        tab.Size = UDim2.new(1, -10, 0, 40)
+        tab.Position = UDim2.new(0, 5, 0, (#tabsContainer:GetChildren() - 1) * 45)
+        tab.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+        tab.Text = tabName
+        tab.TextColor3 = Color3.fromRGB(255, 255, 255)
+        tab.Font = Enum.Font.Gotham
+        tab.TextSize = 16
+        tab.Parent = tabsContainer
 
-        tabButton.MouseButton1Click:Connect(function()
-            showTab(tabName)
-        end)
+        local tabCorner = Instance.new("UICorner")
+        tabCorner.CornerRadius = UDim.new(0, 8)
+        tabCorner.Parent = tab
 
-        -- Create content for the tab
         local contentFrame = Instance.new("Frame")
+        contentFrame.Name = tabName .. "Content"
         contentFrame.Size = UDim2.new(1, 0, 1, 0)
-        contentFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+        contentFrame.BackgroundTransparency = 1
         contentFrame.Visible = false
         contentFrame.Parent = contentArea
 
-        tabButtons[tabName] = { Button = tabButton, Content = contentFrame }
+        tab.MouseButton1Click:Connect(function()
+            showTab(tabName)
+        end)
+
+        tabButtons[tabName] = { Button = tab, Content = contentFrame }
         return contentFrame
     end
 
-    -- Remove the loading screen after the window is created
+    function OrionLibrary:AddButton(tabContent, buttonText, callback)
+        local button = Instance.new("TextButton")
+        button.Name = buttonText
+        button.Size = UDim2.new(0, 200, 0, 40)
+        button.Position = UDim2.new(0.5, -100, 0, (#tabContent:GetChildren()) * 50)
+        button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        button.Text = buttonText
+        button.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button.Font = Enum.Font.Gotham
+        button.TextSize = 16
+        button.Parent = tabContent
+
+        local buttonCorner = Instance.new("UICorner")
+        buttonCorner.CornerRadius = UDim.new(0, 8)
+        buttonCorner.Parent = button
+
+        button.MouseButton1Click:Connect(function()
+            if callback then
+                callback()
+            end
+        end)
+    end
+
+    -- Destroy loading screen after everything is loaded
+    wait(2) -- Optional, adjust wait time to simulate loading time
     loadingScreen:Destroy()
 
-    return OrionUI
+    return OrionLibrary
 end
 
-return OrionUI
+return OrionLibrary
