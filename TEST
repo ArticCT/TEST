@@ -1,6 +1,37 @@
 local OrionLibrary = {}
 
+-- Utility function to create the loading screen
+local function createLoadingScreen()
+    local loadingScreen = Instance.new("ScreenGui")
+    loadingScreen.Name = "LoadingScreen"
+    loadingScreen.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(1, 0, 1, 0)
+    frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    frame.BackgroundTransparency = 0.5
+    frame.BorderSizePixel = 0
+    frame.Parent = loadingScreen
+
+    local loadingLabel = Instance.new("TextLabel")
+    loadingLabel.Text = "Loading..."
+    loadingLabel.Size = UDim2.new(1, 0, 0, 50)
+    loadingLabel.Position = UDim2.new(0, 0, 0.5, -25)
+    loadingLabel.BackgroundTransparency = 1
+    loadingLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    loadingLabel.Font = Enum.Font.Gotham
+    loadingLabel.TextSize = 24
+    loadingLabel.TextScaled = true
+    loadingLabel.Parent = frame
+
+    return loadingScreen
+end
+
+-- Function to create the main UI
 function OrionLibrary:CreateWindow(windowTitle)
+    -- Create and show the loading screen
+    local loadingScreen = createLoadingScreen()
+
     -- Main GUI Components
     local screenGui = Instance.new("ScreenGui")
     screenGui.Name = "OrionUI"
@@ -95,6 +126,7 @@ function OrionLibrary:CreateWindow(windowTitle)
     profileCorner.CornerRadius = UDim.new(0, 8)
     profileCorner.Parent = profileFrame
 
+    -- Profile Image and Username
     local profileImage = Instance.new("ImageLabel")
     profileImage.Name = "ProfileImage"
     profileImage.Size = UDim2.new(0, 50, 0, 50)
@@ -154,28 +186,36 @@ function OrionLibrary:CreateWindow(windowTitle)
         return contentFrame
     end
 
-    function OrionLibrary:AddButton(tabContent, buttonText, callback)
-        local button = Instance.new("TextButton")
-        button.Name = buttonText
-        button.Size = UDim2.new(0, 200, 0, 40)
-        button.Position = UDim2.new(0.5, -100, 0, (#tabContent:GetChildren()) * 50)
-        button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-        button.Text = buttonText
-        button.TextColor3 = Color3.fromRGB(255, 255, 255)
-        button.Font = Enum.Font.Gotham
-        button.TextSize = 16
-        button.Parent = tabContent
+    -- Notification system
+    function OrionLibrary:Notify(title, message)
+        local notification = Instance.new("Frame")
+        notification.Size = UDim2.new(0, 300, 0, 50)
+        notification.Position = UDim2.new(0.5, -150, 0, 50)
+        notification.BackgroundColor3 = Color3.fromRGB(0, 128, 0)
+        notification.Parent = screenGui
+        local notificationCorner = Instance.new("UICorner")
+        notificationCorner.CornerRadius = UDim.new(0, 8)
+        notificationCorner.Parent = notification
 
-        local buttonCorner = Instance.new("UICorner")
-        buttonCorner.CornerRadius = UDim.new(0, 8)
-        buttonCorner.Parent = button
+        local notificationLabel = Instance.new("TextLabel")
+        notificationLabel.Text = title .. "\n" .. message
+        notificationLabel.Size = UDim2.new(1, 0, 1, 0)
+        notificationLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+        notificationLabel.Font = Enum.Font.Gotham
+        notificationLabel.TextSize = 16
+        notificationLabel.TextWrapped = true
+        notificationLabel.Parent = notification
 
-        button.MouseButton1Click:Connect(function()
-            if callback then
-                callback()
-            end
-        end)
+        -- Fade out and destroy after a few seconds
+        wait(3)
+        notification:TweenTransparency(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out, 1, true)
+        wait(1)
+        notification:Destroy()
     end
+
+    -- Create Loading Screen Fade Out
+    wait(1)
+    loadingScreen:Destroy()
 
     return OrionLibrary
 end
