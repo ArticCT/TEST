@@ -45,16 +45,12 @@ function ArticLibrary:CreateWindow(windowTitle)
     closeButton.Name = "CloseButton"
     closeButton.Size = UDim2.new(0, 30, 0, 30)
     closeButton.Position = UDim2.new(1, -35, 0.5, -15)
-    closeButton.BackgroundColor3 = Color3.fromRGB(255, 75, 75)
+    closeButton.BackgroundTransparency = 1
     closeButton.Text = "X"
     closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    closeButton.TextScaled = true
     closeButton.Font = Enum.Font.GothamBold
+    closeButton.TextScaled = true
     closeButton.Parent = titleBar
-
-    local closeCorner = Instance.new("UICorner")
-    closeCorner.CornerRadius = UDim.new(1, 0)
-    closeCorner.Parent = closeButton
 
     closeButton.MouseButton1Click:Connect(function()
         screenGui:Destroy()
@@ -122,6 +118,29 @@ function ArticLibrary:CreateWindow(windowTitle)
 
         tabButtons[tabName] = { Button = tab, Content = contentFrame }
         return contentFrame
+    end
+
+    function ArticLibrary:AddButton(tabContent, buttonText, callback)
+        local button = Instance.new("TextButton")
+        button.Name = buttonText
+        button.Size = UDim2.new(0, 200, 0, 40)
+        button.Position = UDim2.new(0.5, -100, 0, (#tabContent:GetChildren()) * 50)
+        button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        button.Text = buttonText
+        button.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button.Font = Enum.Font.Gotham
+        button.TextSize = 16
+        button.Parent = tabContent
+
+        local buttonCorner = Instance.new("UICorner")
+        buttonCorner.CornerRadius = UDim.new(0, 8)
+        buttonCorner.Parent = button
+
+        button.MouseButton1Click:Connect(function()
+            if callback then
+                callback()
+            end
+        end)
     end
 
     return ArticLibrary
