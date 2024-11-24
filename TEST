@@ -1,4 +1,4 @@
-local KavoUI = {}
+local OrionUI = {}
 
 -- Function to create the loading screen
 local function createLoadingScreen()
@@ -27,32 +27,32 @@ local function createLoadingScreen()
     return loadingScreen
 end
 
--- Main UI creation function
-function KavoUI:CreateWindow(windowTitle)
+-- Create the Orion UI Window
+function OrionUI:CreateWindow(windowTitle)
     -- Create the loading screen
     local loadingScreen = createLoadingScreen()
 
-    -- Main GUI Components
+    -- Main Window Frame
     local screenGui = Instance.new("ScreenGui")
-    screenGui.Name = "KavoUI"
+    screenGui.Name = "OrionUI"
     screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
-    -- Create the main frame
+    -- Create the main frame for the UI
     local mainFrame = Instance.new("Frame")
     mainFrame.Name = "MainFrame"
     mainFrame.Size = UDim2.new(0, 600, 0, 400)
     mainFrame.Position = UDim2.new(0.5, -300, 0.5, -200)
-    mainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(27, 27, 27) -- Dark background for Orion style
     mainFrame.BorderSizePixel = 0
     mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
     mainFrame.Parent = screenGui
     mainFrame.Active, mainFrame.Draggable = true, true
 
-    -- Title Bar
+    -- Title Bar (Orion Style)
     local titleBar = Instance.new("Frame")
     titleBar.Name = "TitleBar"
-    titleBar.Size = UDim2.new(1, 0, 0, 40)
-    titleBar.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    titleBar.Size = UDim2.new(1, 0, 0, 35)
+    titleBar.BackgroundColor3 = Color3.fromRGB(40, 40, 40) -- Dark gray for title bar
     titleBar.BorderSizePixel = 0
     titleBar.Parent = mainFrame
 
@@ -61,14 +61,14 @@ function KavoUI:CreateWindow(windowTitle)
     title.Size = UDim2.new(1, -40, 1, 0)
     title.Position = UDim2.new(0, 10, 0, 0)
     title.BackgroundTransparency = 1
-    title.Text = windowTitle or "Kavo UI"
+    title.Text = windowTitle or "Orion UI"
     title.TextColor3 = Color3.fromRGB(255, 255, 255)
     title.Font = Enum.Font.GothamBold
-    title.TextSize = 20
+    title.TextSize = 18
     title.TextXAlignment = Enum.TextXAlignment.Left
     title.Parent = titleBar
 
-    -- Close Button
+    -- Close Button (Orion Style X)
     local closeButton = Instance.new("TextButton")
     closeButton.Name = "CloseButton"
     closeButton.Size = UDim2.new(0, 30, 0, 30)
@@ -92,38 +92,21 @@ function KavoUI:CreateWindow(windowTitle)
         closeButton.TextColor3 = Color3.fromRGB(255, 0, 0)
     end)
 
-    -- Tabs Section (Left Sidebar)
+    -- Tabs Section (Orion Style)
     local tabsContainer = Instance.new("Frame")
     tabsContainer.Name = "TabsContainer"
-    tabsContainer.Size = UDim2.new(0, 150, 1, -40)
-    tabsContainer.Position = UDim2.new(0, 0, 0, 40)
-    tabsContainer.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    tabsContainer.Size = UDim2.new(0, 150, 1, -35)
+    tabsContainer.Position = UDim2.new(0, 0, 0, 35)
+    tabsContainer.BackgroundColor3 = Color3.fromRGB(40, 40, 40) -- Dark gray for tabs container
     tabsContainer.BorderSizePixel = 0
     tabsContainer.Parent = mainFrame
 
-    local tabsCorner = Instance.new("UICorner")
-    tabsCorner.CornerRadius = UDim.new(0, 10)
-    tabsCorner.Parent = tabsContainer
-
-    -- Content Area (Right section for tabs' content)
-    local contentArea = Instance.new("Frame")
-    contentArea.Name = "ContentArea"
-    contentArea.Size = UDim2.new(1, -150, 1, -40)
-    contentArea.Position = UDim2.new(0, 150, 0, 40)
-    contentArea.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    contentArea.BorderSizePixel = 0
-    contentArea.Parent = mainFrame
-
-    local contentCorner = Instance.new("UICorner")
-    contentCorner.CornerRadius = UDim.new(0, 12)
-    contentCorner.Parent = contentArea
-
-    -- Profile Section (Bottom left corner)
+    -- Profile Section (Bottom-left corner)
     local profileFrame = Instance.new("Frame")
     profileFrame.Name = "ProfileFrame"
     profileFrame.Size = UDim2.new(1, 0, 0, 60)
     profileFrame.Position = UDim2.new(0, 0, 1, -60)
-    profileFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    profileFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50) -- Dark gray for profile area
     profileFrame.BorderSizePixel = 0
     profileFrame.Parent = tabsContainer
 
@@ -152,6 +135,19 @@ function KavoUI:CreateWindow(windowTitle)
     profileUsername.TextXAlignment = Enum.TextXAlignment.Left
     profileUsername.Parent = profileFrame
 
+    -- Content Area (Right section for tabs' content)
+    local contentArea = Instance.new("Frame")
+    contentArea.Name = "ContentArea"
+    contentArea.Size = UDim2.new(1, -150, 1, -35)
+    contentArea.Position = UDim2.new(0, 150, 0, 35)
+    contentArea.BackgroundColor3 = Color3.fromRGB(35, 35, 35) -- Dark background for content area
+    contentArea.BorderSizePixel = 0
+    contentArea.Parent = mainFrame
+
+    local contentCorner = Instance.new("UICorner")
+    contentCorner.CornerRadius = UDim.new(0, 12)
+    contentCorner.Parent = contentArea
+
     -- Tab Management
     local tabButtons = {}
     local function showTab(tabName)
@@ -160,11 +156,11 @@ function KavoUI:CreateWindow(windowTitle)
         end
     end
 
-    function KavoUI:AddTab(tabName)
+    function OrionUI:AddTab(tabName)
         -- Create the tab button
         local tabButton = Instance.new("TextButton")
         tabButton.Size = UDim2.new(1, 0, 0, 40)
-        tabButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        tabButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55) -- Darker gray for the active tab
         tabButton.Text = tabName
         tabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
         tabButton.Font = Enum.Font.Gotham
@@ -189,7 +185,7 @@ function KavoUI:CreateWindow(windowTitle)
     -- Remove the loading screen after the window is created
     loadingScreen:Destroy()
 
-    return KavoUI
+    return OrionUI
 end
 
-return KavoUI
+return OrionUI
