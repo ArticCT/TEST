@@ -39,23 +39,31 @@ function OrionLibrary:CreateWindow(windowTitle)
 
     local mainFrame = Instance.new("Frame")
     mainFrame.Name = "MainFrame"
-    mainFrame.Size = UDim2.new(0, 500, 0, 400)
-    mainFrame.Position = UDim2.new(0.5, -250, 0.5, -200)
-    mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    mainFrame.Size = UDim2.new(0, 550, 0, 400)
+    mainFrame.Position = UDim2.new(0.5, -275, 0.5, -200)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
     mainFrame.BorderSizePixel = 0
     mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
     mainFrame.Parent = screenGui
     mainFrame.Active, mainFrame.Draggable = true, true
 
+    -- Add rounded corners and shadow
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, 10)
     corner.Parent = mainFrame
+
+    local shadow = Instance.new("ImageLabel")
+    shadow.Size = UDim2.new(1, 0, 1, 20)
+    shadow.Position = UDim2.new(0, 0, 1, 0)
+    shadow.BackgroundTransparency = 1
+    shadow.Image = "rbxassetid://13082504272"  -- Roblox shadow image
+    shadow.Parent = mainFrame
 
     -- Title Bar
     local titleBar = Instance.new("Frame")
     titleBar.Name = "TitleBar"
     titleBar.Size = UDim2.new(1, 0, 0, 40)
-    titleBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    titleBar.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     titleBar.BorderSizePixel = 0
     titleBar.Parent = mainFrame
 
@@ -71,14 +79,14 @@ function OrionLibrary:CreateWindow(windowTitle)
     title.TextXAlignment = Enum.TextXAlignment.Left
     title.Parent = titleBar
 
-    -- Close Button
+    -- Close Button (styled X)
     local closeButton = Instance.new("TextButton")
     closeButton.Name = "CloseButton"
     closeButton.Size = UDim2.new(0, 30, 0, 30)
     closeButton.Position = UDim2.new(1, -35, 0.5, -15)
     closeButton.BackgroundTransparency = 1
     closeButton.Text = "X"
-    closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    closeButton.TextColor3 = Color3.fromRGB(255, 0, 0)
     closeButton.Font = Enum.Font.GothamBold
     closeButton.TextScaled = true
     closeButton.Parent = titleBar
@@ -87,12 +95,20 @@ function OrionLibrary:CreateWindow(windowTitle)
         screenGui:Destroy()
     end)
 
+    closeButton.MouseEnter:Connect(function()
+        closeButton.TextColor3 = Color3.fromRGB(255, 150, 150)
+    end)
+
+    closeButton.MouseLeave:Connect(function()
+        closeButton.TextColor3 = Color3.fromRGB(255, 0, 0)
+    end)
+
     -- Tabs Section
     local tabsContainer = Instance.new("Frame")
     tabsContainer.Name = "TabsContainer"
     tabsContainer.Size = UDim2.new(0, 150, 1, -40)
     tabsContainer.Position = UDim2.new(0, 0, 0, 40)
-    tabsContainer.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    tabsContainer.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     tabsContainer.BorderSizePixel = 0
     tabsContainer.Parent = mainFrame
 
@@ -105,7 +121,7 @@ function OrionLibrary:CreateWindow(windowTitle)
     contentArea.Name = "ContentArea"
     contentArea.Size = UDim2.new(1, -150, 1, -40)
     contentArea.Position = UDim2.new(0, 150, 0, 40)
-    contentArea.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    contentArea.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     contentArea.BorderSizePixel = 0
     contentArea.Parent = mainFrame
 
@@ -113,12 +129,12 @@ function OrionLibrary:CreateWindow(windowTitle)
     contentCorner.CornerRadius = UDim.new(0, 10)
     contentCorner.Parent = contentArea
 
-    -- Profile Section
+    -- Profile Section (Bottom left corner)
     local profileFrame = Instance.new("Frame")
     profileFrame.Name = "ProfileFrame"
     profileFrame.Size = UDim2.new(1, 0, 0, 60)
     profileFrame.Position = UDim2.new(0, 0, 1, -60)
-    profileFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    profileFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
     profileFrame.BorderSizePixel = 0
     profileFrame.Parent = tabsContainer
 
@@ -156,65 +172,33 @@ function OrionLibrary:CreateWindow(windowTitle)
     end
 
     function OrionLibrary:AddTab(tabName)
-        local tab = Instance.new("TextButton")
-        tab.Name = tabName
-        tab.Size = UDim2.new(1, -10, 0, 40)
-        tab.Position = UDim2.new(0, 5, 0, (#tabsContainer:GetChildren() - 2) * 45)
-        tab.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-        tab.Text = tabName
-        tab.TextColor3 = Color3.fromRGB(255, 255, 255)
-        tab.Font = Enum.Font.Gotham
-        tab.TextSize = 16
-        tab.Parent = tabsContainer
+        -- Create the tab button
+        local tabButton = Instance.new("TextButton")
+        tabButton.Size = UDim2.new(1, 0, 0, 40)
+        tabButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+        tabButton.Text = tabName
+        tabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        tabButton.Font = Enum.Font.Gotham
+        tabButton.TextSize = 18
+        tabButton.Parent = tabsContainer
 
-        local tabCorner = Instance.new("UICorner")
-        tabCorner.CornerRadius = UDim.new(0, 8)
-        tabCorner.Parent = tab
-
+        -- Create content for the tab
         local contentFrame = Instance.new("Frame")
-        contentFrame.Name = tabName .. "Content"
         contentFrame.Size = UDim2.new(1, 0, 1, 0)
-        contentFrame.BackgroundTransparency = 1
+        contentFrame.Position = UDim2.new(0, 150, 0, 40)
+        contentFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
         contentFrame.Visible = false
         contentFrame.Parent = contentArea
 
-        tab.MouseButton1Click:Connect(function()
+        tabButton.MouseButton1Click:Connect(function()
             showTab(tabName)
         end)
 
-        tabButtons[tabName] = { Button = tab, Content = contentFrame }
+        tabButtons[tabName] = { Button = tabButton, Content = contentFrame }
         return contentFrame
     end
 
-    -- Notification system
-    function OrionLibrary:Notify(title, message)
-        local notification = Instance.new("Frame")
-        notification.Size = UDim2.new(0, 300, 0, 50)
-        notification.Position = UDim2.new(0.5, -150, 0, 50)
-        notification.BackgroundColor3 = Color3.fromRGB(0, 128, 0)
-        notification.Parent = screenGui
-        local notificationCorner = Instance.new("UICorner")
-        notificationCorner.CornerRadius = UDim.new(0, 8)
-        notificationCorner.Parent = notification
-
-        local notificationLabel = Instance.new("TextLabel")
-        notificationLabel.Text = title .. "\n" .. message
-        notificationLabel.Size = UDim2.new(1, 0, 1, 0)
-        notificationLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-        notificationLabel.Font = Enum.Font.Gotham
-        notificationLabel.TextSize = 16
-        notificationLabel.TextWrapped = true
-        notificationLabel.Parent = notification
-
-        -- Fade out and destroy after a few seconds
-        wait(3)
-        notification:TweenTransparency(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out, 1, true)
-        wait(1)
-        notification:Destroy()
-    end
-
-    -- Create Loading Screen Fade Out
-    wait(1)
+    -- Remove loading screen
     loadingScreen:Destroy()
 
     return OrionLibrary
